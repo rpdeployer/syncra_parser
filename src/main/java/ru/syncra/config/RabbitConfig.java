@@ -39,7 +39,7 @@ public class RabbitConfig {
 
     @Bean
     public CachingConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitHost, rabbitPort);
         connectionFactory.setVirtualHost(virtualHost);
         connectionFactory.setAddresses(rabbitHost);
         connectionFactory.setUsername(rabbitUsername);

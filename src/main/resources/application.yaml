@@ -18,7 +18,7 @@ core:
 
 logging:
   file:
-    name: logs/app.log
+    name: logs/syncra_parser.log
   level:
     root: INFO
     ru.syncra: DEBUG
