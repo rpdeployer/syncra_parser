@@ -1,0 +1,25 @@
+spring:
+  main:
+    web-application-type: none
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
+    username: ${RABBIT_USER}
+    password: ${RABBIT_PASSWORD}
+    concurrent-consumers: 10
+    prefetch-count: 50
+  queues:
+    message-queue: message-queue
+
+core:
+  service:
+    url: ${CORE_URL}
+
+logging:
+  file:
+    name: logs/app.log
+  level:
+    root: INFO
+    ru.syncra: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
