@@ -41,7 +41,6 @@ public class RabbitConfig {
     public CachingConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitHost, rabbitPort);
         connectionFactory.setVirtualHost(virtualHost);
-        connectionFactory.setAddresses(rabbitHost);
         connectionFactory.setUsername(rabbitUsername);
         connectionFactory.setPassword(rabbitPassword);
         connectionFactory.setChannelCacheSize(100);
