@@ -16,6 +16,7 @@ services:
       RABBIT_USER: ${RABBIT_USER}
       RABBIT_PASSWORD: ${RABBIT_PASSWORD}
       RABBIT_VHOST: ${RABBIT_VHOST}
+      CORE_URL: ${CORE_URL}
     networks:
       - traefik-web
     labels:
