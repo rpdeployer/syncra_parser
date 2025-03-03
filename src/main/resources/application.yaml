@@ -6,6 +6,7 @@ spring:
     port: ${RABBIT_PORT}
     username: ${RABBIT_USER}
     password: ${RABBIT_PASSWORD}
+    virtual-host: ${RABBIT_VHOST}
     concurrent-consumers: 10
     prefetch-count: 50
   queues:
