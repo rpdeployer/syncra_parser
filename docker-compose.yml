@@ -6,7 +6,7 @@ networks:
 
 services:
   parser:
-    image: syncra/parser:${ROUTER_VERSION}
+    image: syncra/parser:${PARSER_VERSION}
     container_name: syncra_parser
     restart: unless-stopped
     environment:
