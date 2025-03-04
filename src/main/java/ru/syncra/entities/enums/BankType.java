@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 public enum BankType {
 
-    SBERBANK(Set.of("900", "Сбербанк")),
+    SBERBANK(Set.of("900", "Сбербанк", "+66652062760")),
     TBANK(Set.of("T-Bank", "Т-Банк")),
     ;
 

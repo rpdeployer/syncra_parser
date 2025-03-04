@@ -21,7 +21,7 @@ public class ApplicationUtils {
         BigDecimal messageAmount = BigDecimal.valueOf(Double.parseDouble(parsedMessage.getAmount()));
 
         return activeApplications.stream()
-                .filter(app -> isWithinTimeRange(timestamp, app.getFrom(), app.getTo()))
+//                .filter(app -> isWithinTimeRange(timestamp, app.getFrom(), app.getTo()))
                 .filter(app -> app.getAmount().compareTo(messageAmount) == 0)
                 .findFirst()
                 .orElse(null);
