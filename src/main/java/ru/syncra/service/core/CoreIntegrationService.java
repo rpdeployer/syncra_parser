@@ -16,20 +16,31 @@ public class CoreIntegrationService {
     private final CoreClient coreClient;
 
     public List<ActiveApplication> getActiveApplications(BankType bankType, String deviceId) {
-        return coreClient.getActiveApplications(bankType.name(), deviceId);
+        ApiResponse<List<ActiveApplication>> response = coreClient.getActiveApplications(bankType.name(), deviceId);
+        return extractValue(response, "getActiveApplications", bankType.name(), deviceId);
     }
 
     public void confirmApplication(Long id) {
-        coreClient.confirmApplication(new ConfirmPayload(id.toString()));
+        ApiResponse<Void> response = coreClient.confirmApplication(new ConfirmPayload(id.toString()));
+        extractValue(response, "confirmApplication", id);
     }
 
     public void reportNotFound(MessagePayload messagePayload) {
-        coreClient.reportUnmatchedTransaction(messagePayload);
+        ApiResponse<Void> response = coreClient.reportUnmatchedTransaction(messagePayload);
+        extractValue(response, "reportNotFound", messagePayload);
     }
 
     public void blockDevice(String deviceId) {
-        coreClient.blockDevice(new BlockPayload(deviceId));
+        ApiResponse<Void> response = coreClient.blockDevice(new BlockPayload(deviceId));
+        extractValue(response, "blockDevice", deviceId);
     }
 
+    private <T> T extractValue(ApiResponse<T> response, String methodName, Object... params) {
+        if (response.isFailure() | !response.isSuccess()) {
+            log.error("Ошибка в методе {} с параметрами {}. Ошибки: {}", methodName, params, response.getFailures());
+        }
+
+        return response.getValue();
+    }
 }
 

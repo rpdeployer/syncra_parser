@@ -11,16 +11,19 @@ import java.util.List;
 public interface CoreClient {
 
     @GetMapping("/api/applications/active")
-    List<ActiveApplication> getActiveApplications(@RequestParam String bank, @RequestParam String deviceId);
+    ApiResponse<List<ActiveApplication>> getActiveApplications(
+            @RequestParam String bank,
+            @RequestParam String deviceId
+    );
 
     @PostMapping("/api/applications/confirm")
-    void confirmApplication(@RequestBody ConfirmPayload body);
+    ApiResponse<Void> confirmApplication(@RequestBody ConfirmPayload body);
 
     @PostMapping("/api/applications/report")
-    void reportUnmatchedTransaction(@RequestBody MessagePayload body);
+    ApiResponse<Void> reportUnmatchedTransaction(@RequestBody MessagePayload body);
 
     @PostMapping("/api/mobile/block")
-    void blockDevice(@RequestBody BlockPayload body);
+    ApiResponse<Void> blockDevice(@RequestBody BlockPayload body);
 
 }
 
