@@ -11,6 +11,9 @@ on:
         required: true
         default: "1.0.0"
 
+env:
+  DIR: syncra_parser
+
 jobs:
   test:
     name: Run Tests
@@ -41,6 +44,14 @@ jobs:
         run: |
           echo "PARSER_VERSION=${{ github.event.inputs.version || '1.0.0' }}" >> $GITHUB_ENV
 
+      - name: Create project dir
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > key.pem
+          chmod 600 key.pem
+          ssh -o IdentitiesOnly=yes -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USER }}@${{ secrets.HOST }} -p ${{ secrets.SSH_PORT }} << 'EOF'
+             sudo mkdir -p /syncra/${{ env.DIR }} && sudo chown -R ${{ secrets.USER }}:${{ secrets.USER }} /syncra/${{ env.DIR }}
+          EOF
+
       - name: Build Docker Image
         run: |
           docker build . -t syncra/parser:${{ env.PARSER_VERSION }}
@@ -50,7 +61,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -i key.pem parser.tar ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ secrets.DIR }}
+          scp -P ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -i key.pem parser.tar ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ env.DIR }}
 
       - name: Create .env file on Server
         run: |
@@ -63,29 +74,29 @@ jobs:
           echo "RABBIT_PASSWORD=${{ secrets.RABBIT_PASSWORD }}" >> .env
           echo "${{ secrets.SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -i key.pem .env ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ secrets.DIR }}
+          scp -P ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -i key.pem .env ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ env.DIR }}
 
       - name: Load Container
         run: |
           echo "${{ secrets.SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
-            docker load -i /${{ secrets.USER }}/${{ secrets.DIR }}/parser.tar
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USER }}@${{ secrets.HOST }} -p ${{ secrets.SSH_PORT }} << 'EOF'
+            sudo docker load -i /${{ secrets.USER }}/${{ env.DIR }}/parser.tar
           EOF
 
       - name: Copy docker-compose.yml to Server
         run: |
           echo "${{ secrets.SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -i key.pem docker-compose.yml ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ secrets.DIR }}
+          scp -P ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -i key.pem docker-compose.yml ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ env.DIR }}
 
       - name: Restart Docker Compose
         run: |
           echo "${{ secrets.SSH_KEY }}" > key.pem
           chmod 600 key.pem
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
-            cd /${{ secrets.USER }}/${{ secrets.DIR }}
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.USER }}@${{ secrets.HOST }} -p ${{ secrets.SSH_PORT }} << 'EOF'
+            cd /${{ secrets.USER }}/${{ env.DIR }}
             source .env
-            docker-compose down -v
-            docker-compose up -d --build
+            sudo docker-compose down -v
+            sudo docker-compose up -d --build
           EOF
