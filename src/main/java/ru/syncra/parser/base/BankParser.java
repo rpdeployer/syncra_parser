@@ -6,6 +6,7 @@ import ru.syncra.exception.BlockingException;
 public interface BankParser {
 
     ParsedMessage parse(String text, boolean isSms);
+
     void checkBlockingMessage(String text) throws BlockingException;
 
 }

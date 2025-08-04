@@ -1,16 +1,18 @@
 package ru.syncra.entities.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ConfirmPayload {
 
-    @JsonProperty("applicationId")
-    private String applicationId;
+    @JsonProperty("paymentId")
+    private String paymentId;
 
-    public ConfirmPayload(String applicationId) {
-        this.applicationId = applicationId;
-    }
+    @JsonProperty("salt")
+    private String salt;
+
 }
 

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.syncra.entities.dto.*;
 import ru.syncra.entities.enums.BankType;
+import ru.syncra.util.HmacSigner;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class CoreIntegrationService {
     }
 
     public void confirmApplication(Long id) {
-        ApiResponse<Void> response = coreClient.confirmApplication(new ConfirmPayload(id.toString()));
+        ApiResponse<Void> response = coreClient.confirmApplication(new ConfirmPayload(id.toString(), HmacSigner.SECRET));
         extractValue(response, "confirmApplication", id);
     }
 
@@ -30,8 +31,8 @@ public class CoreIntegrationService {
         extractValue(response, "reportNotFound", messagePayload);
     }
 
-    public void blockDevice(String deviceId) {
-        ApiResponse<Void> response = coreClient.blockDevice(new BlockPayload(deviceId));
+    public void blockDevice(String deviceId, String bankIdCore) {
+        ApiResponse<Void> response = coreClient.blockDeviceAndRequisit(new BlockPayload(deviceId, bankIdCore, HmacSigner.SECRET));
         extractValue(response, "blockDevice", deviceId);
     }
 

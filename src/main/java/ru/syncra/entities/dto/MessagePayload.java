@@ -25,4 +25,7 @@ public class MessagePayload {
     @JsonProperty("deviceId")
     private String deviceId;
 
+    @JsonProperty("salt")
+    private String salt;
+
 }

@@ -31,34 +31,35 @@ public class MessageListener {
         log.info("Обработка сообщения {}: {}", message.getFrom(), message.getMessage());
 
         CompletableFuture.runAsync(() -> {
+            BankType bank = null;
             try {
-                BankType bank = BankType.getBankType(message.getFrom());
+                bank = BankType.getBankType(message.getFrom());
 
                 BankParser parser = parserFactory.getParser(bank);
 
                 parser.checkBlockingMessage(message.getMessage());
                 ParsedMessage parsedMessage = parser.parse(message.getMessage(), message.getIsSms());
-                log.info("Спарсеное сообщение: {}", parsedMessage);
+                log.info("[{}] Спарсеное сообщение: {}", message.getDeviceId(), parsedMessage);
 
                 if (parsedMessage != null) {
                     List<ActiveApplication> activeApplications = coreIntegrationService.getActiveApplications(bank, message.getDeviceId());
 
                     ActiveApplication activeApplication = ApplicationUtils.findApplication(activeApplications, message, parsedMessage);
                     if (Optional.ofNullable(activeApplication).isPresent()) {
-                        log.info("Найдена заявка, подтверждаем: {}", activeApplication);
+                        log.info("[{}] Найдена заявка, подтверждаем: {}", message.getDeviceId(), activeApplication);
                         coreIntegrationService.confirmApplication(activeApplication.getId());
                     } else {
-                        log.warn("Не найдено ни одной заявки, отправляю репорт!");
+                        log.warn("[{}] Не найдено ни одной заявки, отправляю репорт!", message.getDeviceId());
                         coreIntegrationService.reportNotFound(message);
                     }
                 } else {
-                    log.warn("Не найдено совпадений при парсинге: {}", message);
+                    log.warn("[{}] Не найдено совпадений при парсинге: {}", message.getDeviceId(), message);
                 }
             } catch (BlockingException e) {
-                log.warn("Применяем санкцию 5 к сообщению: {}", message);
-                coreIntegrationService.blockDevice(message.getDeviceId());
+                log.warn("[{}] Применяем санкцию 5 к сообщению: {}", message.getDeviceId(), message);
+                coreIntegrationService.blockDevice(message.getDeviceId(), bank.getBankIdCore());
             } catch (Exception e) {
-                log.error("Ошибка при парсинге сообщения: {}", message, e);
+                log.error("[{}] Ошибка при парсинге сообщения: {}", message.getDeviceId(), message, e);
             }
         });
     }
