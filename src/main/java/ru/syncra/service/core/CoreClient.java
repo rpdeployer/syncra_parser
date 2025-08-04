@@ -2,7 +2,6 @@ package ru.syncra.service.core;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import ru.syncra.Application;
 import ru.syncra.entities.dto.*;
 
 import java.util.List;
@@ -10,20 +9,20 @@ import java.util.List;
 @FeignClient(name = "core-service", url = "${core.service.url}")
 public interface CoreClient {
 
-    @GetMapping("/api/applications/active")
+    @GetMapping("/api/parser/active")
     ApiResponse<List<ActiveApplication>> getActiveApplications(
             @RequestParam String bank,
             @RequestParam String deviceId
     );
 
-    @PostMapping("/api/applications/confirm")
+    @PostMapping("/api/parser/confirm")
     ApiResponse<Void> confirmApplication(@RequestBody ConfirmPayload body);
 
-    @PostMapping("/api/applications/report")
+    @PostMapping("/api/parser/report")
     ApiResponse<Void> reportUnmatchedTransaction(@RequestBody MessagePayload body);
 
     @PostMapping("/api/mobile/block")
-    ApiResponse<Void> blockDevice(@RequestBody BlockPayload body);
+    ApiResponse<Void> blockDeviceAndRequisit(@RequestBody BlockPayload body);
 
 }
 
