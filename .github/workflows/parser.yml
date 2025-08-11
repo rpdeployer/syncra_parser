@@ -72,7 +72,7 @@ jobs:
           echo "RABBIT_VHOST=${{ secrets.RABBIT_VHOST }}" >> .env
           echo "CORE_URL=${{ secrets.CORE_URL }}" >> .env
           echo "RABBIT_PASSWORD=${{ secrets.RABBIT_PASSWORD }}" >> .env
-          echo "${{ secrets.SSH_KEY }}" > key.pem
+          echo "${{ secrets[format('{0}_SSH_SECRET', env.ENV_NAME)] }}" > key.pem
           chmod 600 key.pem
           scp -P ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no -i key.pem .env ${{ secrets.USER }}@${{ secrets.HOST }}:/${{ secrets.USER }}/${{ env.DIR }}
 

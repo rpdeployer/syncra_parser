@@ -1,0 +1,31 @@
+version: '3.8'
+
+networks:
+  traefik-web:
+    external: true
+
+services:
+  parser:
+    image: syncra/parser:${PARSER_VERSION}
+    container_name: syncra_parser
+    restart: unless-stopped
+    environment:
+      SPRING_RABBITMQ_HOST: ${RABBIT_HOST}
+      RABBIT_HOST: ${RABBIT_HOST}
+      RABBIT_PORT: ${RABBIT_PORT}
+      RABBIT_USER: ${RABBIT_USER}
+      RABBIT_PASSWORD: ${RABBIT_PASSWORD}
+      RABBIT_VHOST: ${RABBIT_VHOST}
+      CORE_URL: ${CORE_URL}
+    networks:
+      - traefik-web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.parsers.syncra_parser.rule=Host(`dev-api-parser.syncra.me`)"
+      - "traefik.http.parsers.syncra_parser.entrypoints=http"
+      - "traefik.http.services.syncra_parser.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik-web"
+    expose:
+      - 80
+    volumes:
+      - ${PARSER_LOGS_PATH}:/app/logs
