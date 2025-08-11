@@ -107,13 +107,14 @@ jobs:
 
       - name: Create .env file on Server
         run: |
-          echo "ROUTER_VERSION=$SERVICE_VERSION" > .env
-          echo "ROUTER_LOGS_PATH=$SERVICE_LOGS_DIR" >> .env
+          echo "PARSER_VERSION=$SERVICE_VERSION" > .env
+          echo "PARSER_LOGS_PATH=$SERVICE_LOGS_DIR" >> .env
           echo "RABBIT_HOST=${{ secrets[format('{0}_RABBIT_HOST', env.ENV_NAME)] }}" >> .env
           echo "RABBIT_PORT=${{ secrets[format('{0}_RABBIT_PORT', env.ENV_NAME)] }}" >> .env
           echo "RABBIT_USER=${{ secrets[format('{0}_RABBIT_USER', env.ENV_NAME)] }}" >> .env
           echo "RABBIT_VHOST=${{ secrets[format('{0}_RABBIT_VHOST', env.ENV_NAME)] }}" >> .env
           echo "RABBIT_PASSWORD=${{ secrets[format('{0}_RABBIT_PASSWORD', env.ENV_NAME)] }}" >> .env
+          echo "CORE_URL=${{ secrets[format('{0}_CORE_URL', env.ENV_NAME)] }}" >> .env
           echo "${{ secrets[format('{0}_SSH_SECRET', env.ENV_NAME)] }}" > key.pem
           chmod 600 key.pem
           scp -P ${{ secrets[format('{0}_SSH_PORT', env.ENV_NAME)] }} -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -i key.pem .env ${{ secrets[format('{0}_SSH_USER', env.ENV_NAME)] }}@${{ secrets[format('{0}_SSH_HOST', env.ENV_NAME)] }}:$SERVICE_DIR
