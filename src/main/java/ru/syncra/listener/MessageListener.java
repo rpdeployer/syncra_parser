@@ -50,7 +50,7 @@ public class MessageListener {
                         coreIntegrationService.confirmApplication(activeApplication.getId());
                     } else {
                         log.warn("[{}] Не найдено ни одной заявки, отправляю репорт!", message.getDeviceId());
-                        coreIntegrationService.reportNotFound(message);
+//                        coreIntegrationService.reportNotFound(message);
                     }
                 } else {
                     log.warn("[{}] Не найдено совпадений при парсинге: {}", message.getDeviceId(), message);

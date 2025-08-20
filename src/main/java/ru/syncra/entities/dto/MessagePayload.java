@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class MessagePayload {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("from")
     private String from;
 
