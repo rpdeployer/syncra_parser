@@ -11,8 +11,8 @@ public interface CoreClient {
 
     @GetMapping("/api/parser/active")
     ApiResponse<List<ActiveApplication>> getActiveApplications(
-            @RequestParam String bank,
-            @RequestParam String deviceId
+            @RequestParam String bankId,
+            @RequestParam String androidDeviceId
     );
 
     @PostMapping("/api/parser/confirm")

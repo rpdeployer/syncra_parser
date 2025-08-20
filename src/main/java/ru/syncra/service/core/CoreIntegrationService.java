@@ -17,7 +17,7 @@ public class CoreIntegrationService {
     private final CoreClient coreClient;
 
     public List<ActiveApplication> getActiveApplications(BankType bankType, String deviceId) {
-        ApiResponse<List<ActiveApplication>> response = coreClient.getActiveApplications(bankType.name(), deviceId);
+        ApiResponse<List<ActiveApplication>> response = coreClient.getActiveApplications(bankType.getBankIdCore(), deviceId);
         return extractValue(response, "getActiveApplications", bankType.name(), deviceId);
     }
 
