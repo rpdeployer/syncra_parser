@@ -1,14 +1,13 @@
 package ru.syncra.entities.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class MessagePayload {
 
-    @JsonProperty("id")
-    private String id;
+    @JsonProperty("messageId")
+    private String messageId;
 
     @JsonProperty("from")
     private String from;

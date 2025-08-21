@@ -28,7 +28,7 @@ public class MessageListener {
 
     @RabbitListener(queues = "${spring.queues.message-queue}", containerFactory = "rabbitListenerContainerFactory")
     public void receiveMessage(MessagePayload message) {
-        log.info("Обработка сообщения {}: {}", message.getFrom(), message.getMessage());
+        log.info("Обработка сообщения {}", message.toString());
 
         CompletableFuture.runAsync(() -> {
             BankType bank = null;
@@ -47,9 +47,9 @@ public class MessageListener {
                     ActiveApplication activeApplication = ApplicationUtils.findApplication(activeApplications, message, parsedMessage);
                     if (Optional.ofNullable(activeApplication).isPresent()) {
                         log.info("[{}] Найдена заявка, подтверждаем: {}", message.getDeviceId(), activeApplication);
-                        coreIntegrationService.confirmApplication(activeApplication.getId(), message.getId());
+                        coreIntegrationService.confirmApplication(activeApplication.getId(), message.getMessageId());
                     } else {
-                        log.warn("[{}] Не найдено ни одной заявки, отправляю репорт!", message.getDeviceId());
+                        log.warn("[{}] Не найдено ни одной заявки!", message.getDeviceId());
 //                        coreIntegrationService.reportNotFound(message);
                     }
                 } else {
