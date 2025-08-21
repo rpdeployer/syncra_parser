@@ -49,5 +49,12 @@ public class ApiResponse<T> {
             this.description = description;
         }
 
+        @Override
+        public String toString() {
+            return "Failure{" +
+                    "id='" + id + '\'' +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
     }
 }
