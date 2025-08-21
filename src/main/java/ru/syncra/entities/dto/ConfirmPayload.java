@@ -11,6 +11,9 @@ public class ConfirmPayload {
     @JsonProperty("paymentId")
     private String paymentId;
 
+    @JsonProperty("messageId")
+    private String messageId;
+
     @JsonProperty("salt")
     private String salt;
 

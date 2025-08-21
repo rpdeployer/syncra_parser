@@ -47,7 +47,7 @@ public class MessageListener {
                     ActiveApplication activeApplication = ApplicationUtils.findApplication(activeApplications, message, parsedMessage);
                     if (Optional.ofNullable(activeApplication).isPresent()) {
                         log.info("[{}] Найдена заявка, подтверждаем: {}", message.getDeviceId(), activeApplication);
-                        coreIntegrationService.confirmApplication(activeApplication.getId());
+                        coreIntegrationService.confirmApplication(activeApplication.getId(), message.getId());
                     } else {
                         log.warn("[{}] Не найдено ни одной заявки, отправляю репорт!", message.getDeviceId());
 //                        coreIntegrationService.reportNotFound(message);
