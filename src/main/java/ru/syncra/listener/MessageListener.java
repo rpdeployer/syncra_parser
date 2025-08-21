@@ -44,6 +44,8 @@ public class MessageListener {
                 if (parsedMessage != null) {
                     List<ActiveApplication> activeApplications = coreIntegrationService.getActiveApplications(bank, message.getDeviceId());
 
+                    activeApplications.forEach(a -> log.info("Заявка: {}", a.toString()));
+
                     ActiveApplication activeApplication = ApplicationUtils.findApplication(activeApplications, message, parsedMessage);
                     if (Optional.ofNullable(activeApplication).isPresent()) {
                         log.info("[{}] Найдена заявка, подтверждаем: {}", message.getDeviceId(), activeApplication);

@@ -1,6 +1,7 @@
 package ru.syncra.util;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import ru.syncra.entities.dto.ActiveApplication;
 import ru.syncra.entities.dto.MessagePayload;
 import ru.syncra.entities.dto.ParsedMessage;
@@ -15,12 +16,14 @@ import java.util.List;
 
 import static java.lang.Long.parseLong;
 
+@Slf4j
 @UtilityClass
 public class ApplicationUtils {
 
     public static ActiveApplication findApplication(List<ActiveApplication> activeApplications, MessagePayload message, ParsedMessage parsedMessage) throws Exception {
         long timestamp = parseLong(message.getTimestamp());
         BigDecimal messageAmount = BigDecimal.valueOf(Double.parseDouble(parsedMessage.getAmount()));
+        log.info("MessageAmount: {}", messageAmount);
 
         return activeApplications.stream()
                 .filter(app -> isWithinTimeRange(timestamp, app.getFrom(), app.getTo()))
@@ -33,6 +36,9 @@ public class ApplicationUtils {
         try {
             long fromTime = Instant.parse(from).toEpochMilli();
             long toTime = Instant.parse(to).toEpochMilli();
+
+            log.info("FromTime: {}", fromTime);
+            log.info("ToTime: {}", to);
 
             return timestamp >= fromTime && timestamp <= toTime;
         } catch (DateTimeParseException e) {
