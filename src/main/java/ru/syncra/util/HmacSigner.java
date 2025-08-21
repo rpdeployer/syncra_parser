@@ -15,10 +15,16 @@ public class HmacSigner {
             Mac mac = Mac.getInstance("HmacSHA512");
             mac.init(new SecretKeySpec(SECRET.getBytes(StandardCharsets.UTF_8), "HmacSHA512"));
             byte[] rawHmac = mac.doFinal(data.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(rawHmac);
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : rawHmac) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
         } catch (Exception e) {
             throw new RuntimeException("Signature error", e);
         }
     }
+
 }
 
