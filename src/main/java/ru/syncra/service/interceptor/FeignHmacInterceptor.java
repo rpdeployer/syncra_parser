@@ -8,6 +8,7 @@ import ru.syncra.util.HmacSigner;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.UUID;
 
@@ -21,14 +22,17 @@ public class FeignHmacInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
         String path = template.path();
-        String timestamp = String.valueOf(Instant.now().getEpochSecond());
+        long timestamp = Instant.now()
+                .truncatedTo(ChronoUnit.DAYS)
+                .getEpochSecond();
+
 
         try {
             String body = template.body() != null
                     ? new String(template.body(), StandardCharsets.UTF_8)
                     : null;
 
-            String signature = generateSignature(path, timestamp, body);
+            String signature = generateSignature(path, String.valueOf(timestamp), body);
             template.header("Signature", signature);
 
         } catch (Exception e) {

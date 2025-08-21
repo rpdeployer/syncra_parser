@@ -36,7 +36,7 @@ public class ApiResponse<T> {
     @Getter
     @Setter
     @NoArgsConstructor
-    public class Failure {
+    public static class Failure {
 
         @JsonProperty("id")
         private String id;
