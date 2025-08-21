@@ -23,7 +23,6 @@ public class ApplicationUtils {
     public static ActiveApplication findApplication(List<ActiveApplication> activeApplications, MessagePayload message, ParsedMessage parsedMessage) throws Exception {
         long timestamp = parseLong(message.getTimestamp());
         BigDecimal messageAmount = BigDecimal.valueOf(Double.parseDouble(parsedMessage.getAmount()));
-        log.info("MessageAmount: {}", messageAmount);
 
         return activeApplications.stream()
                 .filter(app -> isWithinTimeRange(timestamp, app.getFrom(), app.getTo()))
@@ -37,10 +36,9 @@ public class ApplicationUtils {
             long fromTime = Instant.parse(from).toEpochMilli();
             long toTime = Instant.parse(to).toEpochMilli();
 
-            log.info("FromTime: {}", fromTime);
-            log.info("ToTime: {}", to);
+            var ts = timestamp * 1000;
 
-            return timestamp >= fromTime && timestamp <= toTime;
+            return ts >= fromTime && ts <= toTime;
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format: " + e.getMessage());
             return false;
