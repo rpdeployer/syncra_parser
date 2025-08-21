@@ -28,7 +28,6 @@ public class FeignHmacInterceptor implements RequestInterceptor {
                 .truncatedTo(ChronoUnit.DAYS)
                 .getEpochSecond();
 
-
         try {
             String body = template.body() != null
                     ? new String(template.body(), StandardCharsets.UTF_8)
@@ -60,7 +59,6 @@ public class FeignHmacInterceptor implements RequestInterceptor {
         if (path.startsWith("/api/parser/confirm")) {
             String paymentId = (String) json.get("paymentId");
             String payload = payloadTemplate.formatted(timestamp, paymentId, salt);
-            log.info("Payload: {}", payload);
             return HmacSigner.generateSignature(payload);
         }
 

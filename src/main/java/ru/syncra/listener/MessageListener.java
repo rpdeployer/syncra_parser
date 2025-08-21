@@ -52,7 +52,6 @@ public class MessageListener {
                         coreIntegrationService.confirmApplication(activeApplication.getId(), message.getMessageId());
                     } else {
                         log.warn("[{}] Не найдено ни одной подходящей по параметрам заявки!", message.getMessageId());
-//                        coreIntegrationService.reportNotFound(message);
                     }
                 } else {
                     log.warn("[{}] Не найдено совпадений при парсинге: {}", message.getMessageId(), message);
