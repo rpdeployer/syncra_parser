@@ -49,7 +49,7 @@ public class MessageListener {
                         log.info("[{}] Найдена заявка, подтверждаем: {}", message.getDeviceId(), activeApplication);
                         coreIntegrationService.confirmApplication(activeApplication.getId(), message.getMessageId());
                     } else {
-                        log.warn("[{}] Не найдено ни одной заявки!", message.getDeviceId());
+                        log.warn("[{}] Не найдено ни одной подходящей по параметрам заявки!", message.getDeviceId());
 //                        coreIntegrationService.reportNotFound(message);
                     }
                 } else {

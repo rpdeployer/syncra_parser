@@ -8,7 +8,9 @@ import ru.syncra.exception.ParserException;
 
 import java.math.BigDecimal;
 import java.security.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -27,10 +29,16 @@ public class ApplicationUtils {
                 .orElse(null);
     }
 
-    private static boolean isWithinTimeRange(long timestamp, String from, String to) {
-        long fromTime = parseLong(from);
-        long toTime = parseLong(to);
-        return timestamp >= fromTime && timestamp <= toTime;
+    public static boolean isWithinTimeRange(long timestamp, String from, String to) {
+        try {
+            long fromTime = Instant.parse(from).toEpochMilli();
+            long toTime = Instant.parse(to).toEpochMilli();
+
+            return timestamp >= fromTime && timestamp <= toTime;
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format: " + e.getMessage());
+            return false;
+        }
     }
 
 }
