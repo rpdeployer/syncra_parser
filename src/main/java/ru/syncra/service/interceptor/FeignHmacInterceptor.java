@@ -2,6 +2,7 @@ package ru.syncra.service.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.syncra.util.HmacSigner;
@@ -12,6 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class FeignHmacInterceptor implements RequestInterceptor {
 
@@ -57,7 +59,9 @@ public class FeignHmacInterceptor implements RequestInterceptor {
 
         if (path.startsWith("/api/parser/confirm")) {
             String paymentId = (String) json.get("paymentId");
-            return HmacSigner.generateSignature(payloadTemplate.formatted(timestamp, paymentId, salt));
+            String payload = payloadTemplate.formatted(timestamp, paymentId, salt);
+            log.info("Payload: {}", payload);
+            return HmacSigner.generateSignature(payload);
         }
 
         return HmacSigner.generateSignature(timestamp);
