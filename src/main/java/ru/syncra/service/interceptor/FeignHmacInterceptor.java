@@ -37,7 +37,7 @@ public class FeignHmacInterceptor implements RequestInterceptor {
     }
 
     private String generateSignature(String path, String timestamp, String body) throws Exception {
-        if (path.startsWith("/api/applications/active")) {
+        if (path.startsWith("/api/parser/active")) {
             return HmacSigner.generateSignature(timestamp);
         }
 
@@ -51,7 +51,7 @@ public class FeignHmacInterceptor implements RequestInterceptor {
             return HmacSigner.generateSignature(payloadTemplate.formatted(timestamp, deviceId, salt));
         }
 
-        if (path.startsWith("/api/applications/confirm")) {
+        if (path.startsWith("/api/parser/confirm")) {
             String paymentId = (String) json.get("paymentId");
             return HmacSigner.generateSignature(payloadTemplate.formatted(timestamp, paymentId, salt));
         }
