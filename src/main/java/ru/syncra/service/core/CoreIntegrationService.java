@@ -17,13 +17,13 @@ public class CoreIntegrationService {
     private final CoreClient coreClient;
 
     public List<ActiveApplication> getActiveApplications(BankType bankType, String deviceId) {
-        ApiResponse<List<ActiveApplication>> response = coreClient.getActiveApplications(bankType.name(), deviceId);
+        ApiResponse<List<ActiveApplication>> response = coreClient.getActiveApplications(bankType.getBankIdCore(), deviceId);
         return extractValue(response, "getActiveApplications", bankType.name(), deviceId);
     }
 
-    public void confirmApplication(Long id) {
-        ApiResponse<Void> response = coreClient.confirmApplication(new ConfirmPayload(id.toString(), HmacSigner.SECRET));
-        extractValue(response, "confirmApplication", id);
+    public void confirmApplication(String paymentId, String messageId) {
+        ApiResponse<Void> response = coreClient.confirmApplication(new ConfirmPayload(paymentId, messageId, HmacSigner.SECRET));
+        extractValue(response, "confirmApplication", paymentId, messageId);
     }
 
     public void reportNotFound(MessagePayload messagePayload) {

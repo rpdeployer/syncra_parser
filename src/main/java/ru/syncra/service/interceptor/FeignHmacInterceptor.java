@@ -2,15 +2,18 @@ package ru.syncra.service.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.syncra.util.HmacSigner;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class FeignHmacInterceptor implements RequestInterceptor {
 
@@ -21,14 +24,16 @@ public class FeignHmacInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
         String path = template.path();
-        String timestamp = String.valueOf(Instant.now().getEpochSecond());
+        long timestamp = Instant.now()
+                .truncatedTo(ChronoUnit.DAYS)
+                .getEpochSecond();
 
         try {
             String body = template.body() != null
                     ? new String(template.body(), StandardCharsets.UTF_8)
                     : null;
 
-            String signature = generateSignature(path, timestamp, body);
+            String signature = generateSignature(path, String.valueOf(timestamp), body);
             template.header("Signature", signature);
 
         } catch (Exception e) {
@@ -37,7 +42,7 @@ public class FeignHmacInterceptor implements RequestInterceptor {
     }
 
     private String generateSignature(String path, String timestamp, String body) throws Exception {
-        if (path.startsWith("/api/applications/active")) {
+        if (path.startsWith("/api/parser/active")) {
             return HmacSigner.generateSignature(timestamp);
         }
 
@@ -51,9 +56,10 @@ public class FeignHmacInterceptor implements RequestInterceptor {
             return HmacSigner.generateSignature(payloadTemplate.formatted(timestamp, deviceId, salt));
         }
 
-        if (path.startsWith("/api/applications/confirm")) {
+        if (path.startsWith("/api/parser/confirm")) {
             String paymentId = (String) json.get("paymentId");
-            return HmacSigner.generateSignature(payloadTemplate.formatted(timestamp, paymentId, salt));
+            String payload = payloadTemplate.formatted(timestamp, paymentId, salt);
+            return HmacSigner.generateSignature(payload);
         }
 
         return HmacSigner.generateSignature(timestamp);
