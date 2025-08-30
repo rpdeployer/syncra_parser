@@ -19,6 +19,7 @@ on:
         options:
           - 'DEV'
           - 'PROD'
+          - 'PROD_WL_PAYX'
 
 env:
   HOME_DIR: /syncra
