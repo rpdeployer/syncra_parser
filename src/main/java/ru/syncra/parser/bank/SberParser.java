@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 @Component
 public class SberParser extends BaseParser {
 
+    // TODO - проверить с исходящими переводами, проапдейтить регексп
+
     @Override
     protected Pattern getBlockPattern() {
         return Pattern.compile("([З|з]аблокирован|115-ФЗ|[О|о]бслуживание|[В|в]ыдача|выдачи наличных|[В|в]ыдача карты|[П|п]одтверждение номера телефона)");
