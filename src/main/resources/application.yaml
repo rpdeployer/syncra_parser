@@ -11,6 +11,7 @@ spring:
     prefetch-count: 50
   queues:
     message-queue: message-queue
+    message-update-queue: message-update-queue
 
 core:
   service:
