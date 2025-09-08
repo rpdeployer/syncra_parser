@@ -16,6 +16,9 @@ public class RabbitConfig {
     @Value("${spring.queues.message-queue}")
     private String messageQueue;
 
+    @Value("${spring.queues.message-update-queue}")
+    private String messageUpdateQueue;
+
     @Value("${spring.rabbitmq.concurrent-consumers:10}")
     private int concurrentConsumers;
 
@@ -60,8 +63,13 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Queue queue() {
+    public Queue messageQueue() {
         return new Queue(messageQueue, true);
+    }
+
+    @Bean
+    public Queue messageUpdateQueue() {
+        return new Queue(messageUpdateQueue, true);
     }
 
     @Bean
