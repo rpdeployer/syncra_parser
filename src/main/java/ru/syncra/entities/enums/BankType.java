@@ -12,6 +12,7 @@ public enum BankType {
 
     SBERBANK(Set.of("900", "Сбербанк", "Сбербанк Онлайн", "Сбер"), "b85b1c98-5307-46c6-9acb-5ca27a21b416"),
     TBANK(Set.of("T-Bank", "Т-Банк"), "2c72d88a-943c-4301-9f14-691ca9136aaf"),
+    OZON(Set.of("Ozon Банк"), "024c9d33-9a5c-42e1-8104-e34a2ca46391"),
     ;
 
     private Set<String> names;

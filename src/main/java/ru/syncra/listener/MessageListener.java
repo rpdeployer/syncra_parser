@@ -52,7 +52,7 @@ public class MessageListener {
 
                 if (parsedMessage != null) {
                     MessageUpdatePayload messageUpdatePayload = new MessageUpdatePayload(
-                            message.getMessageId(), parsedMessage.getAmount(), parsedMessage.getCurrency()
+                            message.getMessageId(), bank.getBankIdCore(),  parsedMessage.getAmount(), parsedMessage.getCurrency()
                     );
 
                     CompletableFuture.runAsync(() ->
