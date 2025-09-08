@@ -13,6 +13,9 @@ public class MessageUpdatePayload {
     @JsonProperty("messageId")
     private String messageId;
 
+    @JsonProperty("bankId")
+    private String bankId;
+
     @JsonProperty("amount")
     private String amount;
 
