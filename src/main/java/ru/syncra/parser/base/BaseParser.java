@@ -46,7 +46,8 @@ public abstract class BaseParser implements BankParser {
     private String prepareMessageForNotification(String message) {
         return message.replaceAll("[\\s\u00A0]", "")
                 .replaceAll("[Б|б]аланс.*", "")
-                .replaceAll(",", ".");
+                .replaceAll(",", ".")
+                .replaceAll("[Д|д]оступно.*", ".");
     }
 
     private String prepareMessageForSMS(String message) {

@@ -3,20 +3,25 @@ package ru.syncra.listener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.syncra.entities.dto.ActiveApplication;
 import ru.syncra.entities.dto.MessagePayload;
+import ru.syncra.entities.dto.MessageUpdatePayload;
 import ru.syncra.entities.dto.ParsedMessage;
 import ru.syncra.entities.enums.BankType;
 import ru.syncra.exception.BlockingException;
 import ru.syncra.parser.base.BankParser;
 import ru.syncra.parser.BankParserFactory;
+import ru.syncra.producer.MessageUpdateProducer;
 import ru.syncra.service.core.CoreIntegrationService;
 import ru.syncra.util.ApplicationUtils;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +30,10 @@ public class MessageListener {
 
     private final BankParserFactory parserFactory;
     private final CoreIntegrationService coreIntegrationService;
+
+    @Autowired
+    private MessageUpdateProducer messageUpdateProducer;
+    private final Executor executor = Executors.newFixedThreadPool(10);
 
     @RabbitListener(queues = "${spring.queues.message-queue}", containerFactory = "rabbitListenerContainerFactory")
     public void receiveMessage(MessagePayload message) {
@@ -42,6 +51,13 @@ public class MessageListener {
                 log.info("[{}] Спарсеное сообщение: {}", message.getMessageId(), parsedMessage);
 
                 if (parsedMessage != null) {
+                    MessageUpdatePayload messageUpdatePayload = new MessageUpdatePayload(
+                            message.getMessageId(), bank.getBankIdCore(),  parsedMessage.getAmount(), parsedMessage.getCurrency()
+                    );
+
+                    CompletableFuture.runAsync(() ->
+                            messageUpdateProducer.sendToQueue(messageUpdateProducer.messageUpdateQueue, messageUpdatePayload), executor);
+
                     List<ActiveApplication> activeApplications = coreIntegrationService.getActiveApplications(bank, message.getDeviceId());
 
                     activeApplications.forEach(a -> log.info("[{}] Заявка: {}", message.getMessageId(), a.toString()));
