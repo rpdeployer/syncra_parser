@@ -13,7 +13,7 @@ public class ActiveApplication {
 
     // GUID payment
     @JsonProperty("id")
-    private Long id;
+    private String id;
 
     // timestamp - время создания заявки
     @JsonProperty("createdAt")

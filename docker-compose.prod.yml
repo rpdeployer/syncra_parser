@@ -19,7 +19,7 @@ services:
       - traefik-web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.parsers.syncra_parser.rule=Host(`dev-api-parser.syncra.me`)"
+      - "traefik.http.parsers.syncra_parser.rule=Host(`api-parser.syncra.me`)"
       - "traefik.http.parsers.syncra_parser.entrypoints=http"
       - "traefik.http.services.syncra_parser.loadbalancer.server.port=80"
       - "traefik.docker.network=traefik-web"

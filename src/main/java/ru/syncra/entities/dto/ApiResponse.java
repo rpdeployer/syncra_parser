@@ -36,7 +36,7 @@ public class ApiResponse<T> {
     @Getter
     @Setter
     @NoArgsConstructor
-    public class Failure {
+    public static class Failure {
 
         @JsonProperty("id")
         private String id;
@@ -49,5 +49,12 @@ public class ApiResponse<T> {
             this.description = description;
         }
 
+        @Override
+        public String toString() {
+            return "Failure{" +
+                    "id='" + id + '\'' +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
     }
 }
