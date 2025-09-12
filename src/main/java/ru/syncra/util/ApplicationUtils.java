@@ -12,6 +12,7 @@ import java.security.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -33,12 +34,11 @@ public class ApplicationUtils {
 
     public static boolean isWithinTimeRange(long timestamp, String from, String to) {
         try {
-            long fromTime = Instant.parse(from).toEpochMilli();
-            long toTime = Instant.parse(to).toEpochMilli();
+            Instant fromInstant = Instant.parse(from).truncatedTo(ChronoUnit.MILLIS);
+            Instant toInstant = Instant.parse(to).truncatedTo(ChronoUnit.MILLIS);
+            Instant ts = Instant.ofEpochMilli(timestamp);
 
-            var ts = timestamp * 1000;
-
-            return ts >= fromTime && ts <= toTime;
+            return !ts.isBefore(fromInstant) && !ts.isAfter(toInstant);
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format: " + e.getMessage());
             return false;
