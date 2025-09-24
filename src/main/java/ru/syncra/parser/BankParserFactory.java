@@ -38,7 +38,7 @@ public class BankParserFactory {
         parsers.put(SBERBANK, sberParser);
         parsers.put(TBANK, tinkoffParser);
         parsers.put(OZON, ozonParser);
-        parsers.put(VASL, ozonParser);
+        parsers.put(VASL, vaslParser);
     }
 
     public BankParser getParser(BankType bankType) {
