@@ -21,7 +21,7 @@ public class VaslParser extends BaseParser {
     @Override
     protected Pattern getNotificationPattern() {
         return Pattern.compile(
-                "Переводот.*насумму([0-9.0-9]+)(смн)"
+                "от.*насумму([0-9.0-9]+)(смн)"
         );
     }
 
