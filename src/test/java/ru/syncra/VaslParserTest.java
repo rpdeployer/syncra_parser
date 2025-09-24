@@ -33,6 +33,10 @@ class VaslParserTest {
                         "от Сбербанк на сумму 49.35 смн.",
                         new ParsedMessage(TJS, "49.35")
                 ),
+                Arguments.of(
+                        "от MtcSbp на сумму 47.54 смн.",
+                        new ParsedMessage(TJS, "47.54")
+                ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
         );
     }
