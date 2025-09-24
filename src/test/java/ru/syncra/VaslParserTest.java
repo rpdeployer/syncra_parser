@@ -30,8 +30,8 @@ class VaslParserTest {
     private static Stream<Arguments> notificationTestData() {
         return Stream.of(
                 Arguments.of(
-                        "Перевод от Сбербанк на сумму 5.51 смн.",
-                        new ParsedMessage(TJS, "5.51")
+                        "от Сбербанк на сумму 49.35 смн.",
+                        new ParsedMessage(TJS, "49.35")
                 ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
         );
