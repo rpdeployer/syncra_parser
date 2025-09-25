@@ -52,7 +52,8 @@ public abstract class BaseParser implements BankParser {
 
     private String prepareMessageForSMS(String message) {
         return message.replaceAll("[\\s\u00A0]", "")
-                .replaceAll("[Б|б]аланс.*", "");
+                .replaceAll("[Б|б]аланс.*", "")
+                .replaceAll("[О|о]статок.*", "");
     }
 
 }

@@ -27,7 +27,12 @@ public class ApplicationUtils {
 
         return activeApplications.stream()
                 .filter(app -> isWithinTimeRange(timestamp, app.getFrom(), app.getTo()))
-                .filter(app -> app.getAmount().compareTo(messageAmount) == 0)
+                .filter(app -> {
+                    BigDecimal lowerBound = app.getAmount().subtract(app.getRange());
+                    BigDecimal upperBound = app.getAmount().add(app.getRange());
+                    return messageAmount.compareTo(lowerBound) >= 0
+                            && messageAmount.compareTo(upperBound) <= 0;
+                })
                 .findFirst()
                 .orElse(null);
     }

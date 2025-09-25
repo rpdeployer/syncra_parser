@@ -11,7 +11,7 @@ public class Units {
     public static final String TJS = "TJS";
 
     private static final Map<Set<String>, String> units = new HashMap<>() {{
-        put(Set.of("₽", "rub", "р"), RUB);
+        put(Set.of("₽", "rub", "р", "RUR"), RUB);
         put(Set.of("смн"), TJS);
     }};
 

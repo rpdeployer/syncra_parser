@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import ru.syncra.entities.dto.ActiveApplication;
 import ru.syncra.entities.dto.MessagePayload;
 import ru.syncra.entities.dto.ParsedMessage;
@@ -16,6 +18,7 @@ import ru.syncra.parser.base.BankParser;
 import ru.syncra.producer.MessageUpdateProducer;
 import ru.syncra.service.core.CoreIntegrationService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class MessageListenerTest {
 
     @Mock
@@ -67,6 +71,29 @@ class MessageListenerTest {
         app.setFrom("2025-09-12T09:11:15.084467Z");
         app.setTo("2025-09-12T09:21:15.084475Z");
         app.setAmount(new java.math.BigDecimal("3098.00000000"));
+
+        when(coreIntegrationService.getActiveApplications(any(), any()))
+                .thenReturn(List.of(app));
+        doNothing().when(coreIntegrationService)
+                .confirmApplication(anyString(), anyString());
+
+        // when
+        messageListener.receiveMessage(message);
+
+        // then
+        verify(coreIntegrationService, timeout(2000))
+                .confirmApplication(eq(app.getId()), eq(message.getMessageId()));
+    }
+
+    @Test
+    void testReceiveMessage_FindsActiveApplicationTjsWithRange() throws Exception {
+        // given
+        ActiveApplication app = new ActiveApplication();
+        app.setId(UUID.randomUUID().toString());
+        app.setFrom("2025-09-12T09:11:15.084467Z");
+        app.setTo("2025-09-12T09:21:15.084475Z");
+        app.setRange(BigDecimal.TEN);
+        app.setAmount(new java.math.BigDecimal("3088.00000000"));
 
         when(coreIntegrationService.getActiveApplications(any(), any()))
                 .thenReturn(List.of(app));
