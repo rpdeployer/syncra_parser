@@ -36,7 +36,7 @@ public class ActiveApplication {
     private BigDecimal amount;
 
     // decimal - разброс +- от суммы(считаем валидным для подтверждения заявки)
-    @JsonProperty("amount")
+    @JsonProperty("range")
     private BigDecimal range = BigDecimal.ZERO;
 
 }
