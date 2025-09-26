@@ -15,13 +15,13 @@ public class AkbarsParser extends BaseParser {
 
     @Override
     protected Pattern getSmsPattern() {
-        return Pattern.compile("(?!)");
+        return Pattern.compile(".*пополнениена([0-9]+(?:\\.[0-9]{2})?)([A-Z]{3})");
     }
 
     @Override
     protected Pattern getNotificationPattern() {
         return Pattern.compile(
-                ""
+                "(?!)"
         );
     }
 
