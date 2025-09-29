@@ -43,16 +43,17 @@ public abstract class BaseParser implements BankParser {
         return null;
     }
 
-    private String prepareMessageForNotification(String message) {
+    protected String prepareMessageForNotification(String message) {
         return message.replaceAll("[\\s\u00A0 ]", "")
                 .replaceAll("[Б|б]аланс.*", "")
-                .replaceAll(",", ".")
+                .replaceAll(",", "")
                 .replaceAll("[Д|д]оступно.*", ".");
     }
 
-    private String prepareMessageForSMS(String message) {
+    protected String prepareMessageForSMS(String message) {
         return message.replaceAll("[\\s\u00A0]", "")
                 .replaceAll("[Б|б]аланс.*", "")
+                .replaceAll("BALANCE.*", "")
                 .replaceAll("[О|о]статок.*", "");
     }
 
