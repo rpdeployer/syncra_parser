@@ -9,10 +9,12 @@ public class Units {
     public static final String UNKNOWN = "UNKNOWN";
     public static final String RUB = "RUB";
     public static final String TJS = "TJS";
+    public static final String AMD = "AMD";
 
     private static final Map<Set<String>, String> units = new HashMap<>() {{
         put(Set.of("₽", "rub", "р", "RUR"), RUB);
-        put(Set.of("смн"), TJS);
+        put(Set.of("смн", "TJS"), TJS);
+        put(Set.of("AMD"), AMD);
     }};
 
     public static String getUnit(String symbol) {
