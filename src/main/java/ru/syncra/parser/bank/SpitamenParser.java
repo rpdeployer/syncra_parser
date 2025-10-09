@@ -15,7 +15,7 @@ public class SpitamenParser extends BaseParser {
 
     @Override
     protected Pattern getSmsPattern() {
-        return Pattern.compile("(?!)");
+        return Pattern.compile("Приход[:\\s]*([0-9]+(?:[.,][0-9]{1,2})?)\\s*([A-Z]{3})");
     }
 
     @Override
