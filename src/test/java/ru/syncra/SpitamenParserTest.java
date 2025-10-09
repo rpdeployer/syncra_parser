@@ -26,6 +26,14 @@ class SpitamenParserTest {
         assertEquals(expected, result);
     }
 
+    @DisplayName("Тест парсинга SMS сообщений")
+    @ParameterizedTest(name = "{index} -> вход: {0}, ожидаемый результат: {1}")
+    @MethodSource("smsTestData")
+    void testSmsParsing(String text, ParsedMessage expected) {
+        ParsedMessage result = parser.parse(text, true);
+        assertEquals(expected, result);
+    }
+
     private static Stream<Arguments> notificationTestData() {
         return Stream.of(
                 Arguments.of(
@@ -37,6 +45,21 @@ class SpitamenParserTest {
                                 Код операции: 105016158
                                 """,
                         new ParsedMessage(TJS, "112.00")
+                ),
+                Arguments.of("Некорректный текст", null) // Неподходящий текст
+        );
+    }
+
+    private static Stream<Arguments> smsTestData() {
+        return Stream.of(
+                Arguments.of(
+                        """
+                                UPI/KM2061 08/10/2025 21:22
+                                Приход: 61.61 TJS
+                                CJSC "Spitamen Bank"; Dushanbe, SpitamenPay 3.0
+                                Остаток: 0,18 TJS
+                                """,
+                        new ParsedMessage(TJS, "61.61")
                 ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
         );

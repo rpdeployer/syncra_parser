@@ -15,8 +15,10 @@ public enum BankType {
     OZON(Set.of("Ozon Банк"), "024c9d33-9a5c-42e1-8104-e34a2ca46391"),
     VASL(Set.of("Vasl Pay", "Перевод"), "01961ff4-6d64-7162-ad88-8ca988f1702f"),
     AKBARS(Set.of("AKBARS"), "2526b044-957f-4604-b337-a41fa62683a5"),
-    SPITAMEN(Set.of("Spitamen Pay"), "01961ff4-6d64-7162-ad99-8ca988f1702f"),
-    AMERIA(Set.of("ԱՐՔԱ գործարքներ"), "0e80dbaa-b2d7-4202-9b60-faa777a22f06"),
+    SPITAMEN(Set.of("Spitamen Pay", "BANK"), "01961ff4-6d64-7162-ad99-8ca988f1702f"),
+    AMERIA(Set.of("ԱՐՔԱ գործարքներ", "My Ameria"), "0e80dbaa-b2d7-4202-9b60-faa777a22f06"),
+    SOLIDARNOST(Set.of("Солидарность"), "953feac6-392c-4692-c2c6-c2ed9ffd9c5b"),
+    IDRAM(Set.of("Idram"), "953feac6-392c-4692-c3c7-c2ed9ffd9c5b"),
     ;
 
     private Set<String> names;
