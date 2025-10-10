@@ -12,7 +12,7 @@ public class Units {
     public static final String AMD = "AMD";
 
     private static final Map<Set<String>, String> units = new HashMap<>() {{
-        put(Set.of("₽", "rub", "р", "RUR"), RUB);
+        put(Set.of("₽", "rub", "р", "RUR", "RUB"), RUB);
         put(Set.of("смн", "TJS"), TJS);
         put(Set.of("AMD"), AMD);
     }};

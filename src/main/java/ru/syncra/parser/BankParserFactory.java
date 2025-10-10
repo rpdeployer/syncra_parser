@@ -21,6 +21,8 @@ public class BankParserFactory {
     private final AkbarsParser akbarsParser;
     private final SpitamenParser spitamenParser;
     private final AmeriaParser ameriaParser;
+    private final SolidarnostParser solidarnostParser;
+    private final IdramParser idramParser;
 
     private final Map<BankType, BankParser> parsers = new HashMap<>();
 
@@ -31,7 +33,9 @@ public class BankParserFactory {
             VaslParser vaslParser,
             AkbarsParser akbarsParser,
             SpitamenParser spitamenParser,
-            AmeriaParser ameriaParser
+            AmeriaParser ameriaParser,
+            SolidarnostParser solidarnostParser,
+            IdramParser idramParser
     ) {
         this.sberParser = sberParser;
         this.tinkoffParser = tinkoffParser;
@@ -40,6 +44,8 @@ public class BankParserFactory {
         this.akbarsParser = akbarsParser;
         this.spitamenParser = spitamenParser;
         this.ameriaParser = ameriaParser;
+        this.solidarnostParser = solidarnostParser;
+        this.idramParser = idramParser;
 
         parsers.put(SBERBANK, sberParser);
         parsers.put(TBANK, tinkoffParser);
@@ -48,6 +54,8 @@ public class BankParserFactory {
         parsers.put(AKBARS, akbarsParser);
         parsers.put(SPITAMEN, spitamenParser);
         parsers.put(AMERIA, ameriaParser);
+        parsers.put(SOLIDARNOST, solidarnostParser);
+        parsers.put(IDRAM, idramParser);
     }
 
     public BankParser getParser(BankType bankType) {
