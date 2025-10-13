@@ -28,7 +28,7 @@ public abstract class BaseParser implements BankParser {
         }
     }
 
-    private ParsedMessage checkBankMessage(String text, boolean isSms) {
+    protected ParsedMessage checkBankMessage(String text, boolean isSms) {
         Matcher matcher;
         if (isSms) {
             String input = prepareMessageForSMS(text);
