@@ -5,22 +5,20 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.syncra.entities.dto.ParsedMessage;
-import ru.syncra.exception.BlockingException;
-import ru.syncra.parser.bank.IdramParser;
-import ru.syncra.parser.bank.SolidarnostParser;
+import ru.syncra.parser.bank.AmeriaParser;
+import ru.syncra.parser.bank.M10Parser;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.syncra.parser.unit.Units.AMD;
-import static ru.syncra.parser.unit.Units.RUB;
+import static ru.syncra.parser.unit.Units.AZN;
 
-class IdramParserTest {
+class M10ParserTest {
 
-    private IdramParser parser = new IdramParser();
+    private M10Parser parser = new M10Parser();
 
-    @DisplayName("Тест парсинга нотификаций")
+    @DisplayName("Тест парсинга нотификации")
     @ParameterizedTest(name = "{index} -> вход: {0}, ожидаемый результат: {1}")
     @MethodSource("notificationTestData")
     void testNotificationParsing(String text, ParsedMessage expected) {
@@ -32,12 +30,10 @@ class IdramParserTest {
         return Stream.of(
                 Arguments.of(
                         """
-                                IDBank: MUTQ HASHVIN
-                                680.50 AMD
-                                MASTER **8185 - MNACORD: 908.30 AMD
-                                SBQ, AM 04.10.2025 19:51
+                                Пополнение баланса m10
+                                На ваш m10 поступило 0.20 AZN
                                 """,
-                        new ParsedMessage(AMD, "680.50")
+                        new ParsedMessage(AZN, "0.20")
                 ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
         );

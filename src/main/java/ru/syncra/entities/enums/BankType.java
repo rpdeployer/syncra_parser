@@ -19,6 +19,9 @@ public enum BankType {
     AMERIA(Set.of("ԱՐՔԱ գործարքներ", "My Ameria"), "0e80dbaa-b2d7-4202-9b60-faa777a22f06"),
     SOLIDARNOST(Set.of("Солидарность"), "953feac6-392c-4692-c2c6-c2ed9ffd9c5b"),
     IDRAM(Set.of("Idram"), "953feac6-392c-4692-c3c7-c2ed9ffd9c5b"),
+    M10(Set.of("Birbank"), "953feac6-392c-4692-c3c9-c2ed9ffd9c5b"),
+    BIRBANK(Set.of("m10"), "953feac6-392c-4692-c3d1-c2ed9ffd9c5b"),
+    MATIN(Set.of("MDO MATIN", "МАТИН"), "953feac6-392c-4692-c3c8-c2ed9ffd9c5b"),
     ;
 
     private Set<String> names;
