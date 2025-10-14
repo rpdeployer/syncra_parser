@@ -39,6 +39,15 @@ class IdramParserTest {
                                 """,
                         new ParsedMessage(AMD, "680.50")
                 ),
+                Arguments.of(
+                        """
+                                IDBank: MUTQ HASHVIN
+                                680.50 AMD
+                                MASTER **8185 - MNACORD: 908.30 AMD
+                                MNACORD 04.10.2025 19:51
+                                """,
+                        null
+                ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
         );
     }

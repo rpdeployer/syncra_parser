@@ -21,7 +21,7 @@ public class IdramParser extends BaseParser {
     @Override
     protected Pattern getNotificationPattern() {
         return Pattern.compile(
-                ".*?([0-9]+(?:\\.[0-9]{1,2})?)\\s*([A-Z]{3})"
+                ".*?([0-9]+(?:\\.[0-9]{1,2})?)\\s*([A-Z]{3}).*SBQ.*"
         );
     }
 
