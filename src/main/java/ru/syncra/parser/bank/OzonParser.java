@@ -21,7 +21,7 @@ public class OzonParser extends BaseParser {
     @Override
     protected Pattern getNotificationPattern() {
         return Pattern.compile(
-                "Пополнение(?:черезСБП)?на([0-9]+)\\s*(₽)"
+                "Пополнение.*на([0-9]+)\\s*(₽)"
         );
     }
 

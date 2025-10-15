@@ -33,40 +33,6 @@ class OzonParserTest {
         assertDoesNotThrow(() -> parser.checkBlockingMessage(text));
     }
 
-    private static Stream<Arguments> smsTestData() {
-        return Stream.of(
-                Arguments.of(
-                        "Пополнение через СБП на 100 ₽. Антон Эдуардович Р. Альфа-Банк. Баланс 100 ₽",
-                        new ParsedMessage(RUB, "100")
-                ),
-                Arguments.of(
-                        "Пополнение через СБП на 200 ₽. Антон Эдуардович Р. ВТБ. Баланс 300 ₽",
-                        new ParsedMessage(RUB, "200")
-                ),
-                Arguments.of(
-                        "Пополнение через СБП на 1 000 ₽. Варвара Николаевна С. Райффайзен Банк. Баланс 2 012 ₽",
-                        new ParsedMessage(RUB, "1000")
-                ),
-                Arguments.of(
-                        "Пополнение через СБП на 1 010 ₽. Владислав Юрьевич М. Т-Банк. Баланс 2 507 ₽",
-                        new ParsedMessage(RUB, "1010")
-                ),
-                Arguments.of(
-                        "Пополнение через СБП на 1 005 ₽. Владислав Денисович Л. Т-Банк. Баланс 1 012 ₽",
-                        new ParsedMessage(RUB, "1005")
-                ),
-                Arguments.of(
-                        "Пополнение через СБП на 30 ₽. Марк Андреевич Ц. Сбербанк. Баланс 3 092 ₽",
-                        new ParsedMessage(RUB, "30")
-                ),
-                Arguments.of(
-                        "Пополнение на 1 000 ₽. Екатерина Леонидовна П.. Доступно 1 497 ₽",
-                        new ParsedMessage(RUB, "1000")
-                ),
-                Arguments.of("Некорректный текст", null) // Неподходящий текст
-        );
-    }
-
     private static Stream<Arguments> notificationTestData() {
         return Stream.of(
                 Arguments.of(
@@ -95,6 +61,10 @@ class OzonParserTest {
                 ),
                 Arguments.of(
                         "Пополнение на 1 000 ₽. Екатерина Леонидовна П.. Доступно 1 497 ₽",
+                        new ParsedMessage(RUB, "1000")
+                ),
+                Arguments.of(
+                        "Пополнение со своего счёта через СБП на 1 000 ₽. ГЕОРГИЙ АРТЕМОВИЧ С. Т-Банк. Баланс 1 000 ₽",
                         new ParsedMessage(RUB, "1000")
                 ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
