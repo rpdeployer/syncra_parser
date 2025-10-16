@@ -46,7 +46,7 @@ class IdramParserTest {
                                 MASTER **8185 - MNACORD: 908.30 AMD
                                 MNACORD 04.10.2025 19:51
                                 """,
-                        null
+                        new ParsedMessage(AMD, "680.50")
                 ),
                 Arguments.of("Некорректный текст", null) // Неподходящий текст
         );
